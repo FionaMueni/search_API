@@ -1,0 +1,6 @@
+.movieContainer{
+   display: flex;
+   flex-wrap: wrap;
+   gap: 2em;
+   flex-direction: column;
+}
