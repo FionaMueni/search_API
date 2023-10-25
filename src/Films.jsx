@@ -11,7 +11,12 @@ const Films = () => {
     const [newData, setNewData] = useState([])
     const [search, setSearch] = useState("")
     // console.log(data)
+    const [selectedCategory, newSelectedCategory] = useState()
     
+    
+    const category = data && data.map((data) =>data.category)
+    const uniqueCategory = new Set(category)
+   const newCategory = [...uniqueCategory]
 
     useEffect(()=>{
         fetch("http://localhost:3000/films").then((response)=>{
@@ -42,9 +47,37 @@ useEffect(()=>{
     
 }, [search])
 
+useEffect(()=>{
+    if (selectedCategory === ""){
+        setNewData(data)
+    }else {
+        const filteredCategory = data && data.filter((movie)=>
+        
+        {
+            return (
+                movie.category.includes(selectedCategory) 
+
+            )
+            // movie.category === selectedCategory
+        })
+        setNewData(filteredCategory)
+    }
+
+}, [selectedCategory])
 
     return (
         <div>
+
+        <select onChange={((event)=>newSelectedCategory(event.target.value))}>
+            <option value="">All categories</option>
+
+           {newCategory && newCategory.map((item, index)=>{
+            return(
+                <option value={item} key={index}>{item}</option>
+            )
+           })}
+
+        </select>
             <div style={{
                 display: 'flex',
                 flexWrap: 'wrap',
